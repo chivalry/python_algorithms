@@ -16,7 +16,7 @@ def is_palindrome(word):
     """Use recursion to return `True` if the word is a palindrome"""
     if len(word) in [0, 1]:
         return True
-    return word[0] == word[-1] and is_palindrom(word[1:-1])
+    return word[0] == word[-1] and is_palindrome(word[1:-1])
 
 
 def is_anagram(word, candidate):
