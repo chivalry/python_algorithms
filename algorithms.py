@@ -41,7 +41,108 @@ def is_prime(num: int) -> bool:
     while fact <= root:
         if num % fact == 0 or num % (fact + 2) == 0:
             return False
+        fact += 6
     return True
+
+def bubble_sort(lst):
+    for pass_num in range(len(lst) - 1, 0, -1):
+        for i in range(pass_num):
+            if lst[i] > lst[i + 1]:
+                lst[i], lst[i + 1] = lst[i + 1], lst[i]
+
+
+def short_bubble_sort(lst):
+    exchanges = True
+    pass_num = len(lst) - 1
+    while pass_num > 0 and exchanges:
+        exchanges = False
+        for i in range(pass_num):
+            if lst[i] > lst[i + 1]:
+                exchanges = True
+                lst[i], lst[i + 1] = lst[i + 1], lst[i]
+        pass_num -= 1
+
+
+def selection_sort(lst):
+    for slot in range(len(lst) - 1, 0, -1):
+        max_pos = 0
+        for location in range(1, slot + 1):
+            if lst[location] > lst[max_pos]:
+                max_pos = location
+        lst[slot], lst[max_pos] = lst[max_pos], lst[slot]
+
+
+def insertion_sort(lst):
+    for i in range(1, len(lst)):
+        curr = lst[i]
+        pos = i
+        while pos > 0 and lst[pos - 1] > curr:
+            lst[pos] = lst[pos - 1]
+            pos = pos - 1
+        lst[pos] = curr
+
+
+def shell_sort(lst):
+    gap:memoryview = len(lst) // 2
+    while gap > 0:
+        for start in range(gap):
+            for i in range(start + gap, len(lst), gap):
+                curr = lst[i]
+                pos = i
+                while pos >= gap and lst[pos - gap] > curr:
+                    lst[pos] = lst[pos - gap]
+                    pos -= gap
+                lst[pos] = curr
+        gap //= 2
+
+
+def merge_sort(lst):
+    if len(lst) > 1:
+        mid = len(lst) // 2
+        left = lst[:mid]
+        right = lst[mid:]
+        merge_sort(left)
+        merge_sort(right)
+        i = j = k = 0
+        while i < len(left) and j < len(right):
+            if left[i] < right[j]:
+                lst[k] = left[i]
+                i += 1
+            else:
+                lst[k] = right[j]
+                j += 1
+            k += 1
+        while i < len(left):
+            lst[k] = left[i]
+            i += 1
+            k += 1
+        while j < len(right):
+            lst[k] = right[j]
+            j += 1
+            k += 1
+
+
+def quick_sort(lst, first=0, last=None):
+    if not last:
+        quick_sort(lst, first, len(lst) - 1)
+        return
+    if first >= last:
+        return
+    pivot = lst[first]
+    left = first + 1
+    right = last
+    while True:
+        while left <= right and lst[left] <= pivot:
+            left += 1
+        while lst[right] >= pivot and right >= left:
+            right -= 1
+        if right < left:
+            break
+        lst[left], lst[right] = lst[right], lst[left]
+    lst[first], lst[right] = lst[right], lst[first]
+    split = right
+    quick_sort(lst, first, split - 1)
+    quick_sort(lst, split + 1, last)
 
 
 if __name__ == '__main__':
